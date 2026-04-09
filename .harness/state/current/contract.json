@@ -1,16 +1,16 @@
 {
-  "task": "Bring harness-loop to usable baseline with team-based harness delivery",
+  "task": "Graduate harness-loop into a clean, agent-readable, stable delivery baseline",
   "type": "feature",
   "threshold": 90,
   "max_attempts": 4,
   "acceptance": [
     {
       "id": "A1",
-      "text": "Delivery plan exists with team structure and task packages.",
+      "text": "Historical delivery plan is archived, and no longer occupies the main docs entrypoint.",
       "required": true,
       "check": {
         "type": "file_exists",
-        "path": "docs/delivery-plan.md"
+        "path": "docs/archive/delivery-plan-v0-baseline.md"
       }
     },
     {
@@ -51,12 +51,12 @@
     },
     {
       "id": "A6",
-      "text": "Remaining tasks are rewritten as usable-baseline task packages.",
+      "text": "Remaining tasks clearly state that there is no longer any P0 blocking delivery.",
       "required": true,
       "check": {
         "type": "text_in_file",
         "path": "docs/remaining-tasks.md",
-        "includes": "PKG-02"
+        "includes": "当前没有阻止交付的 P0"
       }
     },
     {

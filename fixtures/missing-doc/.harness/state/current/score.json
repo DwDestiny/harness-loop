@@ -26,5 +26,9 @@
     "repeated failure strategy fingerprint"
   ],
   "fingerprint": "9711fcb092fefc0786d6d723be62a1d29bb18a37",
-  "attempt": 1
+  "attempt": 1,
+  "evaluation": {
+    "ok": true,
+    "evidence": "workflow_mode is not team_loop"
+  }
 }

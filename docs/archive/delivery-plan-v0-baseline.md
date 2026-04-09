@@ -1,5 +1,7 @@
 # 可用级别交付计划
 
+> 归档说明：这是一份历史阶段计划，只保留过程记录价值。当前真相源请优先看 `README.md`、`docs/completion-status.md`、`docs/remaining-tasks.md`。
+
 ## 本轮目标
 
 把 Harness Loop 从“本地框架已成型”推进到“对外可用基线成立”。

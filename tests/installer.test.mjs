@@ -74,6 +74,8 @@ test('installPortable writes openclaw skill with team loop guidance', () => {
   assert.match(openclaw_skill, /execution_team/i);
   assert.match(openclaw_skill, /evaluation_team/i);
   assert.match(openclaw_skill, /按 harness 架构循环工作/);
+  assert.match(openclaw_skill, /"label": "standards_team"/);
+  assert.doesNotMatch(openclaw_skill, /"sessionKey": "standards_team"/);
 
   assert.equal(openclaw_manifest.name, 'harness-run');
   assert.match(openclaw_manifest.description, /OpenClaw/i);

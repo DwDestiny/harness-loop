@@ -110,10 +110,11 @@ fixture 的职责是表达“一个完整场景”，不是存零碎输入文件
 
 - `architecture.md`：讲系统结构
 - `development-spec.md`：讲目录、命名、放置规则
-- `completion-status.md`：讲当前完成状态
-- `remaining-tasks.md`：讲后续待办
-- `local-verification.md`：讲本地验证结果
+- `completion-status.md`：讲当前可以对外宣称什么
+- `remaining-tasks.md`：讲仍值得继续做什么
+- `local-verification.md`：讲真实验证证据
 - `privacy-policy.md` / `terms-of-service.md`：讲开源发布必需条款
+- `archive/`：放阶段性计划、历史过程物，不再当前台真相源
 
 ## 文档分工规则
 

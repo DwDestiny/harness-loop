@@ -31,8 +31,8 @@ keywords: [harness, harness loop, openclaw, sessions_spawn, contract, review, sc
 
 1. 如果 .harness/bin/harnessctl 不存在，先在仓库根目录安装 harness 资产。
 2. 如果没有活跃 contract，先初始化：./.harness/bin/harnessctl init --host openclaw --task "<用户任务>"
-3. 先回复用户一句话，说明你将进入 harness 团队循环；然后再输出 sessions_spawn(...)
-4. 必须使用固定 sessionKey，分别是 standards_team、execution_team、evaluation_team
+3. 如果用户明确要求“不要解释”或“直接开始”，就直接进入派发；不要在派发前长篇解释。
+4. 在 sessions_spawn 里必须使用固定 label，分别是 standards_team、execution_team、evaluation_team
 5. standards team 先工作，明确 contract、acceptance、verification
 6. standards team 完成后，执行：./.harness/bin/harnessctl handoff --team standards_team --decision continue --next-team execution_team --summary "contract ready"
 7. execution team 只按 contract 做最小改动；完成后执行：./.harness/bin/harnessctl handoff --team execution_team --decision continue --next-team evaluation_team --summary "diff ready"
@@ -45,8 +45,10 @@ keywords: [harness, harness loop, openclaw, sessions_spawn, contract, review, sc
 
 sessions_spawn({
   "task": "作为 standards_team，先收紧 .harness/state/current/contract.json，补齐 acceptance 和 verification，只输出可执行标准。",
-  "sessionKey": "standards_team",
+  "label": "standards_team",
+  "runtime": "subagent",
+  "mode": "run",
   "runTimeoutSeconds": 300
 })
 
-对 execution_team 和 evaluation_team 使用同样格式，保持各自职责边界，不要混岗。
+对 execution_team 和 evaluation_team 使用同样格式，保持各自职责边界，不要混岗。label 在这里就是编排时使用的固定团队标识，不要随意改名。

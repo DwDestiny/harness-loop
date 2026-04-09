@@ -1,20 +1,24 @@
 # 完成情况
 
-## 结论
+## 当前结论
 
-**本地插件项目已经达到可用级别基线，并且 Claude / Codex / OpenClaw 三宿主的严格 harness 意图主链路都已经验证通过。**
+**Harness Loop 已经达到可交付可复用的稳定基线。**
 
-更准确地说，它已经达到了“本地仓库交付完成 + 可用级别文档/测试基线完成 + GitHub 开源仓库已建立 + Claude/Codex/OpenClaw 主仓库严格 harness 意图 smoke test 已通过”的标准，但还没有达到“所有真实宿主失败态门禁与完整发布闭环全部完成”的标准。
+换句话说，现在可以对外真实宣称：
 
-## 已完成部分
+- 这是一个已经开源、已经整理干净、已经有清晰入口文档的仓库
+- Claude Code、Codex、OpenClaw 三宿主都已经验证过严格 harness 主链路
+- `harness-run` 的触发语义、三团队循环、失败回路和 score 门禁都已经落地
+- 本地门禁 `test / review / doctor / bundle / score` 全部通过
+
+## 已完成的核心能力
 
 ### 1. 共享内核
 
 已完成。
 
-- `packages/harness-core` 已落地
+- `contract / review / verification / score` 真相层已落地
 - deterministic score gate 已落地
-- `contract / verification / review / score` 真相层已落地
 - repeat fingerprint 阻断已落地
 - `team_loop` 元数据已落地
 - `handoffs.jsonl` 团队交接证据已落地
@@ -34,136 +38,72 @@
 - `harnessctl handoff`
 - `harnessctl clean`
 
-### 3. Claude 本地适配层
+### 3. 三宿主接入
+
+已完成 repo-level 验证。
+
+- Claude：repo-local 资产、project agents、`harness-run` skill、`CLAUDE.md` 兜底路由都已生效
+- Codex：`.codex/`、`.agents/`、plugin manifest、`harness-run` skill 都已生效
+- OpenClaw：workspace skill 注册、真实 agent turn、真实 `sessions_spawn` 派发都已生效
+
+### 4. 文档与发布基础
 
 已完成。
 
-- `.claude/settings.json`
-- `.claude/agents/*.md`
-- `.claude/skills/harness-run/SKILL.md`
-- `dist/claude-harness-loop/` bundle
+- `README.md` 已重写为面向智能体用户的入口文档
+- `AGENTS.md` 已收敛为协作规则
+- `docs/architecture.md` 与 `docs/development-spec.md` 继续作为长期真相源
+- 安装、宿主验证、发布、隐私条款文档齐全
+- GitHub 公共仓库已建立：[DwDestiny/harness-loop](https://github.com/DwDestiny/harness-loop)
 
-### 4. Codex 本地适配层
+## 已验证到什么程度
 
-已完成。
+### Claude Code
 
-- `.codex/config.toml`
-- `.codex/hooks.json`
-- `.codex/agents/*.toml`
-- `.agents/skills/harness-run/SKILL.md`
-- `plugins/codex-harness-loop/.codex-plugin/plugin.json`
-- `dist/codex-harness-loop/` bundle
+已验证：
 
-### 5. 回归与评估
+- 严格 harness 意图主链路通过
+- 失败态 stop gate 已在真实宿主里写回失败证据
 
-已完成。
+### Codex
 
-- 5 个 fixture 已存在
-- 单测已通过
-- review / doctor / bundle / score 本地已通过
-- 关键坏路径测试已补齐
+已验证：
 
-### 6. OpenClaw 本地适配层
+- 严格 harness 意图主链路通过
+- 失败态 stop gate 已在带 `.git` 的临时副本里写回失败证据
 
-已完成真实 agent turn 验证。
+### OpenClaw
 
-- `skills/harness-run/SKILL.md`
-- `skills/harness-run/skill.json`
-- `dist/openclaw-harness-loop/skills/`
-- `install --host openclaw --mode workspace` 会把仓库 `skills/` 注册到 `skills.load.extraDirs`
-- `openclaw skills list` 已能看到 `harness-run`
-- `openclaw agent --agent main --message "请用 harness 架构循环工作..." --json` 已返回真实三团队结果
+已验证：
 
-### 7. 开源基础文档与公开仓库
+- `harness-run` skill 可发现
+- 真实 agent turn 会返回固定三团队和失败回路
+- 真实 `sessions_spawn` 已三次返回 `accepted`
 
-已完成。
+## 现在可以说什么
 
-- `README.md`
-- `LICENSE`
-- `CONTRIBUTING.md`
-- `CHANGELOG.md`
-- `AGENTS.md`
-- `CLAUDE.md`
-- `docs/architecture.md`
-- `docs/development-spec.md`
-- `docs/delivery-plan.md`
-- `docs/host-smoke-test.md`
-- `docs/install-operations.md`
-- `docs/release-process.md`
-- `docs/privacy-policy.md`
-- `docs/terms-of-service.md`
-- GitHub 公共仓库：`https://github.com/DwDestiny/harness-loop`
+可以说：
 
-## 还没闭环的部分
+- tri-host harness 主链路已经验证通过
+- Claude / Codex 有真实失败态门禁证据
+- OpenClaw 已经不只是“能发现 skill”，而是真实调起了 `sessions_spawn`
+- 仓库已经达到可以交付、可以复用、可以继续发布的状态
 
-### 1. 真实宿主 smoke test 执行
+## 现在不要说什么
 
-**部分完成。**
+不要提前说：
 
-已经完成的部分：
+- OpenClaw 的 `thread` 绑定或持久子会话已经验证完成
+- 任意非 git、非 trusted 路径都会自动表现一致
+- 已接入任何官方插件市场
 
-- `Claude Code CLI` 主仓库正向 smoke test 已跑通
-- `Codex CLI` 主仓库正向 smoke test 已跑通
-- `OpenClaw` 已发现 `harness-run` skill，来源为 repo 注册的 `skills.load.extraDirs`
-- `OpenClaw` 真实 agent turn 已返回 `standards_team / execution_team / evaluation_team`
-- `claude agents` 已能看到 4 个 project agents
-- `Codex CLI` 的 `harness-run` 探针已直接读取 `.agents/skills/harness-run/SKILL.md`
-- `Codex CLI` 严格 harness 提示已返回固定三团队与失败回路
-- `Claude Code CLI` 严格 harness 提示已返回固定三团队与“失败先回 standards_team”的回路
-- 主仓库 `.harness/state/current/review.json`、`score.json`、`attempts.jsonl` 已被真实宿主 CLI 多次刷新
-- `CLAUDE.md` 已补上受控的 harness 路由块，用来兜底 Claude 的 skill 自动发现不稳定问题
+这些是宿主边界或后续增强，不是当前仓库的已交付承诺。
 
-还没完全闭环的部分：
+## 证据入口
 
-- 故意失败场景下的 stop gate 还没有在真实宿主里完整补测
-- 复制到新路径后的 trusted project 差异还没收口
-- Codex 侧 project agents 没有拿到一个“CLI 直接列出并切换”的证据，因为当前非交互 CLI 本身不暴露这类入口
-- OpenClaw 侧虽然已经有真实 agent turn 证据，但还没有补完“真实任务触发后，三团队通过 sessions_spawn 完整跑一轮”的证据
-
-也就是说，真实宿主验证不再是“完全没做”，而是“主链路已做，负向链路没补完”。
-
-### 2. 真实宿主验收与发布闭环
-
-**部分完成。**
-
-目前已经完成的部分：
-
-- GitHub 公共仓库已创建
-- Codex plugin manifest 已替换为真实仓库地址
-- privacy policy / terms of service 文档已补齐
-- 宿主 smoke test 手册已补齐
-- 安装 / 卸载 / 重装指南已补齐
-- release 流程与 Claude 分发策略已定版
-- 主仓库 `Claude Code CLI` / `Codex CLI` 正向链路已验证
-- OpenClaw repo skill 注册和发现链路已验证
-
-但下面这些还没有完成：
-
-- 真实宿主失败态 stop gate
-- OpenClaw 三团队循环的真实任务 smoke test
-- 基于“正向已验、负向待补”的最终发布口径
-
-### 3. 增强层
-
-**刻意没做。**
-
-这些不属于当前“本地基本完成”的定义：
-
-- MCP server 集成
-- semantic judge
-- 更强的 contract 自动生成
-- 真正的多宿主端到端截图/录屏级验收
-
-## 当前完成度判断
-
-如果只看“本地仓库是否已经能交付、能运行、能通过 harness 评价”，我的判断是：
-
-**可以认为已经完成。**
-
-如果看“是否已经能宣称自己完成了真实宿主集成与完整发布闭环”，我的判断是：
-
-**还不能。**
+- 真实验证细节见 [local-verification.md](/Users/dw/Desktop/private_programe/harness/docs/local-verification.md)
+- 后续增强项见 [remaining-tasks.md](/Users/dw/Desktop/private_programe/harness/docs/remaining-tasks.md)
 
 ## 一句话判断
 
-**可用基线已完成，仓库已开源，Claude/Codex/OpenClaw 严格 harness 主链路已验，失败态与 OpenClaw 的完整 sessions_spawn 实跑未完全验。**
+**这个项目已经毕业到“可交付稳定基线”，剩下的是发布增强和宿主边界扩展，不再是核心可用性问题。**

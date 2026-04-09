@@ -4,3 +4,11 @@
 {"timestamp":"2026-04-09T04:21:09.480Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}
 {"timestamp":"2026-04-09T04:21:36.545Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}
 {"timestamp":"2026-04-09T04:42:11.319Z","attempt":1,"fingerprint":"usable-baseline","passed":true,"score":100,"hard_failures":[]}
+{"timestamp":"2026-04-09T06:32:54.188Z","attempt":1,"fingerprint":"usable-baseline","passed":false,"score":89,"hard_failures":["acceptance A1 not satisfied","acceptance A6 not satisfied"]}
+{"timestamp":"2026-04-09T06:33:39.394Z","attempt":1,"fingerprint":"usable-baseline","passed":false,"score":89,"hard_failures":["acceptance A1 not satisfied","acceptance A6 not satisfied","repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T06:35:14.315Z","attempt":1,"fingerprint":"usable-baseline","passed":false,"score":89,"hard_failures":["acceptance A1 not satisfied","acceptance A6 not satisfied","repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T06:35:14.805Z","attempt":1,"fingerprint":"usable-baseline","passed":false,"score":89,"hard_failures":["acceptance A1 not satisfied","acceptance A6 not satisfied","repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T06:35:43.989Z","attempt":1,"fingerprint":"usable-baseline","passed":false,"score":89,"hard_failures":["acceptance A1 not satisfied","acceptance A6 not satisfied","repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T06:35:59.582Z","attempt":2,"fingerprint":"docs-graduation-baseline","passed":true,"score":100,"hard_failures":[]}
+{"timestamp":"2026-04-09T06:36:20.146Z","attempt":2,"fingerprint":"docs-graduation-baseline","passed":true,"score":100,"hard_failures":[]}
+{"timestamp":"2026-04-09T06:37:21.105Z","attempt":2,"fingerprint":"docs-graduation-baseline","passed":true,"score":100,"hard_failures":[]}

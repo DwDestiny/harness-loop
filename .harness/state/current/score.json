@@ -12,10 +12,10 @@
   "acceptance": [
     {
       "id": "A1",
-      "text": "Delivery plan exists with team structure and task packages.",
+      "text": "Historical delivery plan is archived, and no longer occupies the main docs entrypoint.",
       "required": true,
       "ok": true,
-      "evidence": "docs/delivery-plan.md"
+      "evidence": "docs/archive/delivery-plan-v0-baseline.md"
     },
     {
       "id": "A2",
@@ -47,10 +47,10 @@
     },
     {
       "id": "A6",
-      "text": "Remaining tasks are rewritten as usable-baseline task packages.",
+      "text": "Remaining tasks clearly state that there is no longer any P0 blocking delivery.",
       "required": true,
       "ok": true,
-      "evidence": "docs/remaining-tasks.md includes \"PKG-02\""
+      "evidence": "docs/remaining-tasks.md includes \"当前没有阻止交付的 P0\""
     },
     {
       "id": "A7",
@@ -61,6 +61,10 @@
     }
   ],
   "next_move": [],
-  "fingerprint": "usable-baseline",
-  "attempt": 1
+  "fingerprint": "docs-graduation-baseline",
+  "attempt": 2,
+  "evaluation": {
+    "ok": true,
+    "evidence": "workflow_mode is not team_loop"
+  }
 }

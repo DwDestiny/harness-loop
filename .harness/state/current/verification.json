@@ -6,8 +6,8 @@
       "required": true,
       "ok": true,
       "code": 0,
-      "summary": "> harness-loop@0.2.0 test\n> node --test tests/*.test.mjs\n\n✔ draftContract produces required acceptance and verification (1.968458ms)\n✔ malformed contract surfaces a readable JSON parse error (2.744625ms)\n✔ missing verification contract blocks scoring (6.18875ms)\n✔ invalid hooks config is rejected by",
-      "durationMs": 657
+      "summary": "> harness-loop@0.2.0 test\n> node --test tests/*.test.mjs\n\n✔ draftContract produces required acceptance and verification (0.609458ms)\n✔ draftContract carries harness team loop metadata (0.068375ms)\n✔ malformed contract surfaces a readable JSON parse error (3.452459ms)\n✔ missing verification contract ",
+      "durationMs": 688
     },
     {
       "id": "T2",
@@ -16,7 +16,7 @@
       "ok": true,
       "code": 0,
       "summary": "> harness-loop@0.2.0 review\n> node packages/harnessctl/src/index.mjs review\n\n{\n  \"critical\": 0,\n  \"high\": 0,\n  \"medium\": 0,\n  \"blocking\": [],\n  \"notes\": []\n}",
-      "durationMs": 360
+      "durationMs": 282
     },
     {
       "id": "T3",
@@ -24,8 +24,8 @@
       "required": true,
       "ok": true,
       "code": 0,
-      "summary": "> harness-loop@0.2.0 doctor\n> node packages/harnessctl/src/index.mjs doctor\n\n{\n  \"ok\": true,\n  \"checked\": 18,\n  \"issues\": []\n}",
-      "durationMs": 318
+      "summary": "> harness-loop@0.2.0 doctor\n> node packages/harnessctl/src/index.mjs doctor\n\n{\n  \"ok\": true,\n  \"checked\": 20,\n  \"issues\": []\n}",
+      "durationMs": 278
     },
     {
       "id": "T4",
@@ -34,7 +34,7 @@
       "ok": true,
       "code": 0,
       "summary": "> harness-loop@0.2.0 bundle\n> node scripts/build-bundles.mjs\n\n{\n  \"ok\": true,\n  \"dist\": \"/Users/dw/Desktop/private_programe/harness/dist\"\n}",
-      "durationMs": 347
+      "durationMs": 282
     }
   ]
 }
