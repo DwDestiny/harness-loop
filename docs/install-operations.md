@@ -365,6 +365,36 @@ npm run install
 
 如果还是不对，优先回到 `packages/harness-core/src/templates.mjs` 和 `packages/harness-core/src/installer.mjs` 检查源头模板，而不是只盯生成结果。
 
+### 7.8 换了仓库路径后 hook 没反应
+
+常见原因：
+
+- 你复制了仓库，但新路径还没有被宿主当成 trusted project
+- 你在 `/tmp` 之类临时目录做副本验证
+- repo-local 资产虽然存在，但宿主没有把这个新路径当成“已信任、已接管”的项目
+
+常见表现：
+
+- 主仓库路径里 `review.json`、`score.json`、`attempts.jsonl` 会刷新
+- 一换到新副本路径，这些文件就不再刷新
+- 你会误以为是 hook 模板坏了，其实更可能是宿主路径上下文不同
+
+排查方式：
+
+```bash
+pwd
+sed -n '1,220p' .codex/config.toml
+sed -n '1,220p' .codex/hooks.json
+sed -n '1,220p' .claude/settings.json
+```
+
+然后做两件事：
+
+1. 先在目标路径里重新打开宿主会话
+2. 确认宿主已经把这个新路径当成 trusted project，再重跑 smoke test
+
+不要在 copied path 没被宿主接管时，就直接回头改模板源文件。
+
 ## 8. 建议的最小操作顺序
 
 如果你只想按最少步骤把事情做完，直接走这个顺序：
