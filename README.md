@@ -45,6 +45,16 @@ node packages/harnessctl/src/index.mjs review
 node packages/harnessctl/src/index.mjs score
 ```
 
+## 什么时候会触发 harness-run
+
+当用户的任务明显带着下面这类意图时，宿主就应该更容易自动命中 `harness-run`：
+
+- 明确提到 `harness`、`harness loop`、`按 harness 架构循环工作`
+- 明确要求先定 `contract` / 验收标准，再实现，再 `review`、`verification`、`score`
+- 明确要求循环迭代，直到结果通过评估、门禁或验收后再交付
+
+反过来，如果只是简单问答、翻译、解释，或者一次性很小的修改，而且用户明确不要 harness，就不该硬套这条流程。
+
 ## 常用命令
 
 ```bash

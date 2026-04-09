@@ -29,14 +29,26 @@ Write .harness/state/current/review.json. No taste-based feedback.`,
 
 export function claudeSkill() {
   return `---
-description: Run a harness-governed implementation loop for the current task.
+description: Use this when the user explicitly asks for harness, harness loop, 按 harness 架构循环工作, or wants contract/review/verification/score gated delivery.
 allowed-tools: Read, Grep, Glob, LS, Bash, Write, Edit, MultiEdit, Task
 disable-model-invocation: true
 ---
+Use this skill when:
+- 用户明确说“用 harness”“按 harness 架构循环工作”“按 harness 流程做”“跑 harness loop”
+- 用户要求先定 contract / 验收标准，再实现，再 review，再 verification，再 score
+- 用户要求循环迭代，直到结果通过评估、门禁或验收后再交付
+
+Do not use this skill for:
+- 简单问答、解释、翻译、闲聊
+- 一次性很小的改动，而且用户明确不要 harness 流程
+
+Workflow:
 1. Run ./.harness/bin/harnessctl init --host claude --task "$ARGUMENTS" if no active contract exists.
-2. Ensure contract exists before code changes.
-3. Use planner, researcher, builder, reviewer.
-4. End only when score passes or attempt budget is exhausted.`;
+2. Ensure the contract is measurable before code changes.
+3. Use planner, researcher, builder, reviewer around the contract.
+4. Refresh review and score after each meaningful implementation pass.
+5. If score fails and attempt budget remains, advance with a new strategy and continue the loop.
+6. End only when score passes or attempt budget is exhausted.`;
 }
 
 export function claudeSettings() {
@@ -102,9 +114,23 @@ developer_instructions = "Write .harness/state/current/review.json. No taste-bas
 export function codexSkill() {
   return `---
 name: harness-run
-description: Run a harness-governed implementation loop.
+description: Use this when the user explicitly asks for harness, harness loop, 按 harness 架构循环工作, or wants contract/review/verification/score gated delivery.
 ---
-Use the harness contract as the source of truth. Refresh review and score before declaring completion.`;
+Use this skill when:
+- 用户明确提到 harness、harness loop、按 harness 架构循环工作、按 harness 流程、用 harness 做
+- 用户要求先定标准再实现，或者明确提到 contract、review、verification、score
+- 用户要求循环迭代，直到结果通过评估、门禁或验收再交付
+
+Do not use this skill for:
+- 简单问答、解释、翻译、闲聊
+- 一次性小修改，而且用户明确不需要 harness
+
+Workflow:
+1. If no active contract exists, initialize one for the current task before implementation starts.
+2. Use the harness contract as the source of truth.
+3. Refresh review and score after each meaningful implementation pass.
+4. If score fails and attempt budget remains, advance with a new strategy and continue.
+5. Declare completion only after score passes, or when the attempt budget is exhausted with a clear blocker report.`;
 }
 
 export function codexHooks() {
