@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "score": 100,
+  "threshold": 90,
+  "hard_failures": [],
+  "components": {
+    "acceptance": 40,
+    "verification": 35,
+    "review": 15,
+    "governance": 10
+  },
+  "acceptance": [
+    {
+      "id": "A1",
+      "text": "Completion status doc exists.",
+      "required": true,
+      "ok": true,
+      "evidence": "docs/completion-status.md"
+    },
+    {
+      "id": "A2",
+      "text": "Remaining tasks doc exists.",
+      "required": true,
+      "ok": true,
+      "evidence": "docs/remaining-tasks.md"
+    },
+    {
+      "id": "A3",
+      "text": "Local verification doc exists.",
+      "required": true,
+      "ok": true,
+      "evidence": "docs/local-verification.md"
+    },
+    {
+      "id": "A4",
+      "text": "README has a current status section.",
+      "required": true,
+      "ok": true,
+      "evidence": "README.md includes \"## Current status\""
+    },
+    {
+      "id": "A5",
+      "text": "README links to the completion status doc.",
+      "required": true,
+      "ok": true,
+      "evidence": "README.md includes \"docs/completion-status.md\""
+    },
+    {
+      "id": "A6",
+      "text": "Completion status doc states the host smoke test gap.",
+      "required": true,
+      "ok": true,
+      "evidence": "docs/completion-status.md includes \"宿主内 smoke test\""
+    }
+  ],
+  "next_move": [],
+  "fingerprint": "docs-refresh",
+  "attempt": 2
+}

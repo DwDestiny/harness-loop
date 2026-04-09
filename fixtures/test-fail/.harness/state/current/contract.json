@@ -1,0 +1,23 @@
+{
+  "task": "test fail",
+  "threshold": 85,
+  "max_attempts": 4,
+  "acceptance": [
+    {
+      "id": "A1",
+      "text": "deliverable exists",
+      "required": true,
+      "check": {
+        "type": "file_exists",
+        "path": "deliverable.txt"
+      }
+    }
+  ],
+  "verification": [
+    {
+      "id": "T1",
+      "cmd": "node -e \"process.exit(1)\"",
+      "required": true
+    }
+  ]
+}

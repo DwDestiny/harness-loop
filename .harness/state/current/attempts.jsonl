@@ -1,0 +1,5 @@
+{"timestamp":"2026-04-06T07:53:21.884Z","attempt":1,"fingerprint":"status-audit","passed":false,"score":60,"hard_failures":["acceptance A1 not satisfied","acceptance A2 not satisfied","acceptance A3 not satisfied","acceptance A4 not satisfied","acceptance A5 not satisfied","acceptance A6 not satisfied"]}
+{"timestamp":"2026-04-06T07:55:45.695Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}
+{"timestamp":"2026-04-09T04:17:32.284Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}
+{"timestamp":"2026-04-09T04:21:09.480Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}
+{"timestamp":"2026-04-09T04:21:36.545Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}

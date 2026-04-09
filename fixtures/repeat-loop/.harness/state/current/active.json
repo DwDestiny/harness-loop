@@ -1,0 +1,6 @@
+{
+  "active": true,
+  "attempt": 2,
+  "max_attempts": 4,
+  "strategy_fingerprint": "same"
+}

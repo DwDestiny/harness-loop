@@ -1,0 +1,8 @@
+{
+  "active": false,
+  "host": "auto",
+  "task_id": "2026-04-06-docs-status",
+  "attempt": 2,
+  "max_attempts": 4,
+  "strategy_fingerprint": "docs-refresh"
+}

@@ -1,0 +1,16 @@
+{"attempt": 1, "fingerprint": "same", "passed": false}
+{"timestamp":"2026-04-06T01:52:50.706Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-06T01:54:01.989Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-06T01:54:17.185Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-06T07:50:11.857Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-06T07:50:18.968Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-06T07:51:27.817Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-06T07:53:21.158Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-06T07:55:40.788Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-06T07:55:44.946Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T04:15:50.282Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T04:17:32.151Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T04:21:08.039Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T04:21:09.342Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T04:21:35.120Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}
+{"timestamp":"2026-04-09T04:21:36.406Z","attempt":2,"fingerprint":"same","passed":false,"score":100,"hard_failures":["repeated failure strategy fingerprint"]}

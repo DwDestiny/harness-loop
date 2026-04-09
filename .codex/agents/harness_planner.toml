@@ -1,0 +1,6 @@
+name = "harness_planner"
+description = "Turn the task into a measurable harness contract."
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+sandbox_mode = "read-only"
+developer_instructions = "Write or refresh .harness/state/current/contract.json before implementation starts."

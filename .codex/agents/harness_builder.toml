@@ -1,0 +1,6 @@
+name = "harness_builder"
+description = "Implement the smallest diff that satisfies the contract."
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+developer_instructions = "Make the smallest reversible change and run required verification commands."

@@ -1,0 +1,28 @@
+{
+  "passed": false,
+  "score": 100,
+  "threshold": 85,
+  "hard_failures": [
+    "repeated failure strategy fingerprint"
+  ],
+  "components": {
+    "acceptance": 40,
+    "verification": 35,
+    "review": 15,
+    "governance": 10
+  },
+  "acceptance": [
+    {
+      "id": "A1",
+      "text": "deliverable exists",
+      "required": true,
+      "ok": true,
+      "evidence": "deliverable.txt"
+    }
+  ],
+  "next_move": [
+    "repeated failure strategy fingerprint"
+  ],
+  "fingerprint": "same",
+  "attempt": 2
+}

@@ -1,0 +1,14 @@
+{
+  "critical": 0,
+  "high": 1,
+  "medium": 0,
+  "blocking": [
+    {
+      "severity": "high",
+      "title": "bad review",
+      "evidence": "src/x",
+      "fix": "fix it"
+    }
+  ],
+  "notes": []
+}

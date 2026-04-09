@@ -1,0 +1,13 @@
+{
+  "commands": [
+    {
+      "id": "T1",
+      "cmd": "node -e \"process.exit(0)\"",
+      "required": true,
+      "ok": true,
+      "code": 0,
+      "summary": "",
+      "durationMs": 42
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "task": "Assess local completion and add completion docs + README status",
+  "type": "docs",
+  "threshold": 90,
+  "max_attempts": 4,
+  "acceptance": [
+    {
+      "id": "A1",
+      "text": "Completion status doc exists.",
+      "required": true,
+      "check": { "type": "file_exists", "path": "docs/completion-status.md" }
+    },
+    {
+      "id": "A2",
+      "text": "Remaining tasks doc exists.",
+      "required": true,
+      "check": { "type": "file_exists", "path": "docs/remaining-tasks.md" }
+    },
+    {
+      "id": "A3",
+      "text": "Local verification doc exists.",
+      "required": true,
+      "check": { "type": "file_exists", "path": "docs/local-verification.md" }
+    },
+    {
+      "id": "A4",
+      "text": "README has a current status section.",
+      "required": true,
+      "check": { "type": "text_in_file", "path": "README.md", "includes": "## Current status" }
+    },
+    {
+      "id": "A5",
+      "text": "README links to the completion status doc.",
+      "required": true,
+      "check": { "type": "text_in_file", "path": "README.md", "includes": "docs/completion-status.md" }
+    },
+    {
+      "id": "A6",
+      "text": "Completion status doc states the host smoke test gap.",
+      "required": true,
+      "check": { "type": "text_in_file", "path": "docs/completion-status.md", "includes": "宿主内 smoke test" }
+    }
+  ],
+  "verification": [
+    { "id": "T1", "cmd": "npm test", "required": true },
+    { "id": "T2", "cmd": "node packages/harnessctl/src/index.mjs review --quiet", "required": true },
+    { "id": "T3", "cmd": "node packages/harnessctl/src/index.mjs doctor", "required": true },
+    { "id": "T4", "cmd": "node scripts/build-bundles.mjs", "required": true }
+  ],
+  "metadata": {
+    "milestone": "docs-status",
+    "deterministic_gate": true
+  }
+}

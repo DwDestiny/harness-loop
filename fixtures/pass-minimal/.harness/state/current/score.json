@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "score": 100,
+  "threshold": 85,
+  "hard_failures": [],
+  "components": {
+    "acceptance": 40,
+    "verification": 35,
+    "review": 15,
+    "governance": 10
+  },
+  "acceptance": [
+    {
+      "id": "A1",
+      "text": "deliverable exists",
+      "required": true,
+      "ok": true,
+      "evidence": "deliverable.txt"
+    }
+  ],
+  "next_move": [],
+  "fingerprint": "f4fae92e282f0b5de8837cb01102102de25f5d09",
+  "attempt": 1
+}

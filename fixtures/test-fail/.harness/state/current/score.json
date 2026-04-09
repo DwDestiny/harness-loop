@@ -1,0 +1,30 @@
+{
+  "passed": false,
+  "score": 65,
+  "threshold": 85,
+  "hard_failures": [
+    "node -e \"process.exit(1)\" failed",
+    "repeated failure strategy fingerprint"
+  ],
+  "components": {
+    "acceptance": 40,
+    "verification": 0,
+    "review": 15,
+    "governance": 10
+  },
+  "acceptance": [
+    {
+      "id": "A1",
+      "text": "deliverable exists",
+      "required": true,
+      "ok": true,
+      "evidence": "deliverable.txt"
+    }
+  ],
+  "next_move": [
+    "node -e \"process.exit(1)\" failed",
+    "repeated failure strategy fingerprint"
+  ],
+  "fingerprint": "c28cf082c3ad650d8df62394085174c6564de5db",
+  "attempt": 1
+}

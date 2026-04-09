@@ -1,0 +1,25 @@
+{
+  "name": "harness-loop",
+  "version": "0.2.0",
+  "description": "Deterministic harness loop for measured coding workflows.",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Harness Loop",
+    "shortDescription": "Measured coding loops with stop gates",
+    "longDescription": "Add a deterministic score gate before an agent can claim a coding task is done.",
+    "developerName": "DwDestiny",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/DwDestiny/harness-loop",
+    "privacyPolicyURL": "https://github.com/DwDestiny/harness-loop/blob/main/docs/privacy-policy.md",
+    "termsOfServiceURL": "https://github.com/DwDestiny/harness-loop/blob/main/docs/terms-of-service.md",
+    "defaultPrompt": [
+      "Use Harness Loop to keep coding work behind a score gate."
+    ],
+    "brandColor": "#111827"
+  }
+}

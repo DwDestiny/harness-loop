@@ -1,0 +1,30 @@
+{
+  "passed": false,
+  "score": 85,
+  "threshold": 85,
+  "hard_failures": [
+    "review found high issues",
+    "repeated failure strategy fingerprint"
+  ],
+  "components": {
+    "acceptance": 40,
+    "verification": 35,
+    "review": 0,
+    "governance": 10
+  },
+  "acceptance": [
+    {
+      "id": "A1",
+      "text": "deliverable exists",
+      "required": true,
+      "ok": true,
+      "evidence": "deliverable.txt"
+    }
+  ],
+  "next_move": [
+    "review found high issues",
+    "repeated failure strategy fingerprint"
+  ],
+  "fingerprint": "e436298660235b563cdc8e9e32022e57347e49ba",
+  "attempt": 1
+}

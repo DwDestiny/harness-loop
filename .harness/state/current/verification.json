@@ -1,0 +1,40 @@
+{
+  "commands": [
+    {
+      "id": "T1",
+      "cmd": "npm test",
+      "required": true,
+      "ok": true,
+      "code": 0,
+      "summary": "> harness-loop@0.2.0 test\n> node --test tests/*.test.mjs\n\n✔ draftContract produces required acceptance and verification (1.126917ms)\n✔ fixture pass-minimal yields pass (45.917292ms)\n✔ fixture test-fail yields fail (35.986958ms)\n✔ fixture review-block yields fail (34.6275ms)\n✔ fixture missing-doc yie",
+      "durationMs": 486
+    },
+    {
+      "id": "T2",
+      "cmd": "node packages/harnessctl/src/index.mjs review --quiet",
+      "required": true,
+      "ok": true,
+      "code": 0,
+      "summary": "",
+      "durationMs": 47
+    },
+    {
+      "id": "T3",
+      "cmd": "node packages/harnessctl/src/index.mjs doctor",
+      "required": true,
+      "ok": true,
+      "code": 0,
+      "summary": "{\n  \"ok\": true,\n  \"checked\": 17,\n  \"issues\": []\n}",
+      "durationMs": 37
+    },
+    {
+      "id": "T4",
+      "cmd": "node scripts/build-bundles.mjs",
+      "required": true,
+      "ok": true,
+      "code": 0,
+      "summary": "{\n  \"ok\": true,\n  \"dist\": \"/Users/dw/Desktop/private_programe/harness/dist\"\n}",
+      "durationMs": 38
+    }
+  ]
+}
