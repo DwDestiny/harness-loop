@@ -12,48 +12,55 @@
   "acceptance": [
     {
       "id": "A1",
-      "text": "Completion status doc exists.",
+      "text": "Delivery plan exists with team structure and task packages.",
       "required": true,
       "ok": true,
-      "evidence": "docs/completion-status.md"
+      "evidence": "docs/delivery-plan.md"
     },
     {
       "id": "A2",
-      "text": "Remaining tasks doc exists.",
+      "text": "Host smoke test runbook exists.",
       "required": true,
       "ok": true,
-      "evidence": "docs/remaining-tasks.md"
+      "evidence": "docs/host-smoke-test.md"
     },
     {
       "id": "A3",
-      "text": "Local verification doc exists.",
+      "text": "Install, uninstall, and reinstall guide exists.",
       "required": true,
       "ok": true,
-      "evidence": "docs/local-verification.md"
+      "evidence": "docs/install-operations.md"
     },
     {
       "id": "A4",
-      "text": "README has a current status section.",
+      "text": "Release process and Claude distribution strategy are documented.",
       "required": true,
       "ok": true,
-      "evidence": "README.md includes \"## Current status\""
+      "evidence": "docs/release-process.md"
     },
     {
       "id": "A5",
-      "text": "README links to the completion status doc.",
+      "text": "Abnormal input tests exist for critical bad paths.",
       "required": true,
       "ok": true,
-      "evidence": "README.md includes \"docs/completion-status.md\""
+      "evidence": "tests/error-cases.test.mjs"
     },
     {
       "id": "A6",
-      "text": "Completion status doc states the host smoke test gap.",
+      "text": "Remaining tasks are rewritten as usable-baseline task packages.",
       "required": true,
       "ok": true,
-      "evidence": "docs/completion-status.md includes \"宿主内 smoke test\""
+      "evidence": "docs/remaining-tasks.md includes \"PKG-02\""
+    },
+    {
+      "id": "A7",
+      "text": "README links to architecture, development spec, and installation guide.",
+      "required": true,
+      "ok": true,
+      "evidence": "README.md includes \"docs/install-operations.md\""
     }
   ],
   "next_move": [],
-  "fingerprint": "docs-refresh",
-  "attempt": 2
+  "fingerprint": "usable-baseline",
+  "attempt": 1
 }

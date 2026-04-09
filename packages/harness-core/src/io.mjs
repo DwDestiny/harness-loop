@@ -12,7 +12,12 @@ export function fileExists(targetPath) {
 
 export function readJson(targetPath, fallback = null) {
   if (!fileExists(targetPath)) return fallback;
-  return JSON.parse(fs.readFileSync(targetPath, 'utf8'));
+  const text = fs.readFileSync(targetPath, 'utf8');
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    throw new Error(`Failed to parse JSON at ${targetPath}: ${error.message}`, { cause: error });
+  }
 }
 
 export function writeJson(targetPath, value) {

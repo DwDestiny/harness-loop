@@ -32,6 +32,17 @@ export function doctor(repoRoot) {
     checks.push({ path: '.codex/config.toml:codex_hooks', ok: /codex_hooks\s*=\s*true/.test(text) });
   }
 
+  const hooksPath = path.join(repoRoot, '.codex', 'hooks.json');
+  if (fileExists(hooksPath)) {
+    try {
+      const hooksConfig = JSON.parse(readText(hooksPath));
+      const ok = Boolean(hooksConfig && typeof hooksConfig === 'object' && hooksConfig.hooks && typeof hooksConfig.hooks === 'object');
+      checks.push({ path: '.codex/hooks.json', ok });
+    } catch {
+      checks.push({ path: '.codex/hooks.json', ok: false });
+    }
+  }
+
   const issues = checks.filter((item) => !item.ok).map((item) => item.path);
   return {
     ok: issues.length === 0,

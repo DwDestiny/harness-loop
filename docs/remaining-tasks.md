@@ -1,74 +1,82 @@
 # 剩余待办任务清单
 
-## P0：必须补完，不然不要宣称“全量完成”
+## 当前阶段结论
 
-### 1. Claude 宿主内 smoke test
+当前这轮 **可用级别基线已经完成**。
 
-确认下面几件事：
+已经补齐的内容：
 
-- `.claude/settings.json` hooks 会被真实宿主读取
-- `.claude/agents/*.md` 会被发现
-- `harness-run` skill 可触发
-- Stop gate 在真实任务结束时会拦截失败结果
+- 团队化交付计划
+- 宿主 smoke test 手册
+- 安装 / 卸载 / 重装指南
+- release 流程与 Claude 分发策略
+- 关键坏路径自动化测试
 
-### 2. Codex 宿主内 smoke test
+总控真相源见：
 
-确认下面几件事：
+- `docs/delivery-plan.md`
 
-- `.codex/config.toml` 的 `codex_hooks = true` 生效
-- `.codex/hooks.json` 被真实宿主读取
-- `.codex/agents/*.toml` 会被发现
-- `.agents/skills/harness-run/SKILL.md` 可触发
-- Stop gate 会在失败时 block
+## 本轮已完成任务包
 
-### 3. 明确 Claude 分发策略
+### PKG-02：宿主 smoke test 手册
 
-二选一先定死：
+状态：文档已完成，真实执行未完成
 
-- 只做 portable project assets
-- 或补齐正式插件分发清单与发布流程
+### PKG-03：安装 / 卸载 / 重装说明
 
-## P1：发布前强烈建议补上
+状态：已完成
 
-### 4. 增加安装/卸载文档
+### PKG-04：Claude 分发策略与 release 流程
 
-现在能装，但卸载和重装的路径说明还不够清楚。
+状态：已完成
 
-### 5. 增加失败案例截图或录屏
+### PKG-05：异常输入测试
 
-README 目前更像工程说明，不像对外演示文档。
+状态：已完成
 
-### 6. 增加异常输入测试
+## 当前剩余阻塞项
 
-建议补：
+### PKG-06：真实宿主 smoke test 执行与证据回写
 
-- malformed contract
-- 缺失 verification
-- 无效 hooks 配置
-- 空 repo / 无 package.json 场景
+目标：
 
-### 7. 增加版本发布说明
+- 在真实 Claude Code / Codex 宿主中按 `docs/host-smoke-test.md` 执行手册
+- 把结果回写到 `docs/local-verification.md`
+- 明确哪一侧通过、哪一侧受宿主限制
 
-明确：
+当前阻塞：
 
-- 如何打 tag
-- 如何产出 zip bundle
-- 如何验证 dist 内容
-- 如何发布 release artifact
+- 仓库内手册已齐，但还没有真实宿主执行证据
 
-## P2：增强项，不是当前阻塞项
+### PKG-07：基于真实宿主结果补最终发布说明
 
-### 8. MCP 集成
+目标：
 
-把研究、验证、diff、issue tracker 接起来。
+- 根据 PKG-06 的真实结果，补最终可宣称口径
+- 如果条件满足，再做 tag / release artifact 发布
 
-### 9. semantic judge
+当前阻塞：
 
-只能作为补充，不应替代 deterministic gate。
+- 没有真实宿主结果前，不该把“宿主已验收”写进 release 口径
 
-### 10. 更强的 contract 模板
+## P1：可发布增强项
 
-按任务类型提供：
+### 演示材料
+
+- 增加失败案例截图或录屏
+- 让 README 不只是工程说明，也更像可展示产品
+
+## P2：后续能力增强
+
+### MCP 集成
+
+- 把研究、验证、diff、issue tracker 接起来
+
+### semantic judge
+
+- 只能作为补充，不应替代 deterministic gate
+
+### 更强的 contract 模板
 
 - feature
 - bugfix
@@ -76,10 +84,6 @@ README 目前更像工程说明，不像对外演示文档。
 - docs-only
 - test-only
 
-## 当前建议
+## 当前执行策略
 
-别再扩功能了。
-
-现在不用再补发布占位信息了，这部分已经完成。
-
-接下来先把 **P0 的真实宿主验证补齐**，再决定要不要继续往发布增强层推进。
+先执行 **PKG-06**，拿到真实宿主证据，再决定是否进入 PKG-07 与 P1 / P2。

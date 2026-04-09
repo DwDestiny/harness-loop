@@ -1,54 +1,100 @@
 {
-  "task": "Assess local completion and add completion docs + README status",
-  "type": "docs",
+  "task": "Bring harness-loop to usable baseline with team-based harness delivery",
+  "type": "feature",
   "threshold": 90,
   "max_attempts": 4,
   "acceptance": [
     {
       "id": "A1",
-      "text": "Completion status doc exists.",
+      "text": "Delivery plan exists with team structure and task packages.",
       "required": true,
-      "check": { "type": "file_exists", "path": "docs/completion-status.md" }
+      "check": {
+        "type": "file_exists",
+        "path": "docs/delivery-plan.md"
+      }
     },
     {
       "id": "A2",
-      "text": "Remaining tasks doc exists.",
+      "text": "Host smoke test runbook exists.",
       "required": true,
-      "check": { "type": "file_exists", "path": "docs/remaining-tasks.md" }
+      "check": {
+        "type": "file_exists",
+        "path": "docs/host-smoke-test.md"
+      }
     },
     {
       "id": "A3",
-      "text": "Local verification doc exists.",
+      "text": "Install, uninstall, and reinstall guide exists.",
       "required": true,
-      "check": { "type": "file_exists", "path": "docs/local-verification.md" }
+      "check": {
+        "type": "file_exists",
+        "path": "docs/install-operations.md"
+      }
     },
     {
       "id": "A4",
-      "text": "README has a current status section.",
+      "text": "Release process and Claude distribution strategy are documented.",
       "required": true,
-      "check": { "type": "text_in_file", "path": "README.md", "includes": "## Current status" }
+      "check": {
+        "type": "file_exists",
+        "path": "docs/release-process.md"
+      }
     },
     {
       "id": "A5",
-      "text": "README links to the completion status doc.",
+      "text": "Abnormal input tests exist for critical bad paths.",
       "required": true,
-      "check": { "type": "text_in_file", "path": "README.md", "includes": "docs/completion-status.md" }
+      "check": {
+        "type": "file_exists",
+        "path": "tests/error-cases.test.mjs"
+      }
     },
     {
       "id": "A6",
-      "text": "Completion status doc states the host smoke test gap.",
+      "text": "Remaining tasks are rewritten as usable-baseline task packages.",
       "required": true,
-      "check": { "type": "text_in_file", "path": "docs/completion-status.md", "includes": "宿主内 smoke test" }
+      "check": {
+        "type": "text_in_file",
+        "path": "docs/remaining-tasks.md",
+        "includes": "PKG-02"
+      }
+    },
+    {
+      "id": "A7",
+      "text": "README links to architecture, development spec, and installation guide.",
+      "required": true,
+      "check": {
+        "type": "text_in_file",
+        "path": "README.md",
+        "includes": "docs/install-operations.md"
+      }
     }
   ],
   "verification": [
-    { "id": "T1", "cmd": "npm test", "required": true },
-    { "id": "T2", "cmd": "node packages/harnessctl/src/index.mjs review --quiet", "required": true },
-    { "id": "T3", "cmd": "node packages/harnessctl/src/index.mjs doctor", "required": true },
-    { "id": "T4", "cmd": "node scripts/build-bundles.mjs", "required": true }
+    {
+      "id": "T1",
+      "cmd": "npm test",
+      "required": true
+    },
+    {
+      "id": "T2",
+      "cmd": "npm run review",
+      "required": true
+    },
+    {
+      "id": "T3",
+      "cmd": "npm run doctor",
+      "required": true
+    },
+    {
+      "id": "T4",
+      "cmd": "npm run bundle",
+      "required": true
+    }
   ],
   "metadata": {
-    "milestone": "docs-status",
+    "milestone": "usable-baseline",
+    "drafted_by": "codex",
     "deterministic_gate": true
   }
 }

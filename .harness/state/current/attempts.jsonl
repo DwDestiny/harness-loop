@@ -3,3 +3,4 @@
 {"timestamp":"2026-04-09T04:17:32.284Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}
 {"timestamp":"2026-04-09T04:21:09.480Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}
 {"timestamp":"2026-04-09T04:21:36.545Z","attempt":2,"fingerprint":"docs-refresh","passed":true,"score":100,"hard_failures":[]}
+{"timestamp":"2026-04-09T04:42:11.319Z","attempt":1,"fingerprint":"usable-baseline","passed":true,"score":100,"hard_failures":[]}

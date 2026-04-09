@@ -6,35 +6,35 @@
       "required": true,
       "ok": true,
       "code": 0,
-      "summary": "> harness-loop@0.2.0 test\n> node --test tests/*.test.mjs\n\n✔ draftContract produces required acceptance and verification (1.126917ms)\n✔ fixture pass-minimal yields pass (45.917292ms)\n✔ fixture test-fail yields fail (35.986958ms)\n✔ fixture review-block yields fail (34.6275ms)\n✔ fixture missing-doc yie",
-      "durationMs": 486
+      "summary": "> harness-loop@0.2.0 test\n> node --test tests/*.test.mjs\n\n✔ draftContract produces required acceptance and verification (1.968458ms)\n✔ malformed contract surfaces a readable JSON parse error (2.744625ms)\n✔ missing verification contract blocks scoring (6.18875ms)\n✔ invalid hooks config is rejected by",
+      "durationMs": 657
     },
     {
       "id": "T2",
-      "cmd": "node packages/harnessctl/src/index.mjs review --quiet",
+      "cmd": "npm run review",
       "required": true,
       "ok": true,
       "code": 0,
-      "summary": "",
-      "durationMs": 47
+      "summary": "> harness-loop@0.2.0 review\n> node packages/harnessctl/src/index.mjs review\n\n{\n  \"critical\": 0,\n  \"high\": 0,\n  \"medium\": 0,\n  \"blocking\": [],\n  \"notes\": []\n}",
+      "durationMs": 360
     },
     {
       "id": "T3",
-      "cmd": "node packages/harnessctl/src/index.mjs doctor",
+      "cmd": "npm run doctor",
       "required": true,
       "ok": true,
       "code": 0,
-      "summary": "{\n  \"ok\": true,\n  \"checked\": 17,\n  \"issues\": []\n}",
-      "durationMs": 37
+      "summary": "> harness-loop@0.2.0 doctor\n> node packages/harnessctl/src/index.mjs doctor\n\n{\n  \"ok\": true,\n  \"checked\": 18,\n  \"issues\": []\n}",
+      "durationMs": 318
     },
     {
       "id": "T4",
-      "cmd": "node scripts/build-bundles.mjs",
+      "cmd": "npm run bundle",
       "required": true,
       "ok": true,
       "code": 0,
-      "summary": "{\n  \"ok\": true,\n  \"dist\": \"/Users/dw/Desktop/private_programe/harness/dist\"\n}",
-      "durationMs": 38
+      "summary": "> harness-loop@0.2.0 bundle\n> node scripts/build-bundles.mjs\n\n{\n  \"ok\": true,\n  \"dist\": \"/Users/dw/Desktop/private_programe/harness/dist\"\n}",
+      "durationMs": 347
     }
   ]
 }

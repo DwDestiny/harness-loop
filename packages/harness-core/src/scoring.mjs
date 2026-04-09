@@ -132,10 +132,12 @@ export function scoreRepo(repoRoot, options = {}) {
   const contract = readJson(paths.contract);
   const active = readJson(paths.active, { active: false, attempt: 1, max_attempts: 1 });
   if (!contract) throw new Error('contract.json is required before scoring');
+  const verificationContract = Array.isArray(contract.verification) ? contract.verification : [];
+  const verificationMissing = verificationContract.length === 0;
 
   const verification = options.runVerification === false
     ? (readJson(paths.verification, { commands: [] }))
-    : runVerification(repoRoot, contract);
+    : runVerification(repoRoot, { ...contract, verification: verificationContract });
   writeJson(paths.verification, verification);
 
   const review = options.generateReview === false
@@ -150,6 +152,7 @@ export function scoreRepo(repoRoot, options = {}) {
   if (!fileExists(paths.contract)) hardFailures.push('contract.json is missing');
   if (!fileExists(paths.verification)) hardFailures.push('verification.json is missing');
   if (!fileExists(paths.review)) hardFailures.push('review.json is missing');
+  if (verificationMissing) hardFailures.push('verification commands are missing');
 
   for (const item of verification.commands || []) {
     if (item.required !== false && !item.ok) hardFailures.push(`${item.cmd} failed`);
@@ -175,9 +178,9 @@ export function scoreRepo(repoRoot, options = {}) {
   const acceptanceScore = requiredAcceptance.length
     ? Math.round(40 * requiredAcceptance.filter((item) => item.ok).length / requiredAcceptance.length)
     : 40;
-  const verificationScore = requiredVerification.length
+  const verificationScore = verificationMissing ? 0 : (requiredVerification.length
     ? Math.round(35 * requiredVerification.filter((item) => item.ok).length / requiredVerification.length)
-    : 35;
+    : 35);
   const reviewPenalty = Math.min((review.medium || 0) * 3, 15);
   const reviewScore = Math.max(0, 15 - reviewPenalty - ((review.high || 0) * 15) - ((review.critical || 0) * 15));
   const governanceScore = Math.round(10 * governance.present / governance.total);

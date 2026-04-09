@@ -1,5 +1,12 @@
 # Contributing
 
+## 先看规范
+
+开始改动前，先看这两份文档：
+
+- `docs/architecture.md`
+- `docs/development-spec.md`
+
 ## 贡献规则
 
 - 先写 contract，再动实现
@@ -16,6 +23,15 @@ npm run doctor
 npm run bundle
 npm run score
 ```
+
+## 放置规则
+
+- 运行时代码放 `packages/`
+- 宿主配置放 `.claude/`、`.codex/`、`.agents/`
+- 分发资产放 `plugins/`
+- 测试放 `tests/`
+- 回归样例放 `fixtures/`
+- 长期文档放 `docs/`
 
 ## Pull Request 要写清楚什么
 

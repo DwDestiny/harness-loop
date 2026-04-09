@@ -20,8 +20,8 @@ npm run score
 
 通过。
 
-- 9 个测试全部通过
-- 覆盖 contract / scoring / installer / fixtures
+- 13 个测试全部通过
+- 覆盖 contract / scoring / installer / fixtures / error-cases
 
 ### 2. `npm run review`
 
@@ -36,7 +36,7 @@ npm run score
 通过。
 
 - `ok = true`
-- `checked = 17`
+- `checked = 18`
 - `issues = []`
 
 ### 4. `npm run bundle`
@@ -58,7 +58,7 @@ npm run score
 
 对于“本地仓库是否已经完成”这个问题，当前验证结论是：
 
-**是，已经基本完成。**
+**是，已经达到可用级别基线。**
 
 但对于“是否已经完成真实宿主集成验证”这个问题，当前结论是：
 
