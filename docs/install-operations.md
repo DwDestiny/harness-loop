@@ -20,6 +20,7 @@
   - `.claude/`
   - `.codex/`
   - `.agents/`
+  - `skills/`
   - `plugins/`
 
 推荐先做一次最小检查：
@@ -60,6 +61,8 @@ node packages/harnessctl/src/index.mjs install --host auto --mode portable
 - `.codex/hooks.json`
 - `.codex/agents/*.toml`
 - `.agents/skills/harness-run/SKILL.md`
+- `skills/harness-run/SKILL.md`
+- `skills/harness-run/skill.json`
 - `plugins/claude-harness-loop/README.md`
 - `plugins/codex-harness-loop/.codex-plugin/plugin.json`
 - `plugins/codex-harness-loop/skills/harness-run/SKILL.md`
@@ -69,7 +72,14 @@ node packages/harnessctl/src/index.mjs install --host auto --mode portable
 ```bash
 node packages/harnessctl/src/index.mjs install --host claude --mode portable
 node packages/harnessctl/src/index.mjs install --host codex --mode portable
+node packages/harnessctl/src/index.mjs install --host openclaw --mode portable
+node packages/harnessctl/src/index.mjs install --host openclaw --mode workspace
 ```
+
+`openclaw` 这边要分两种理解：
+
+- `portable`：只在当前仓库生成 `skills/harness-run/`，适合打包、提交、分发
+- `workspace`：除了生成仓库内 skill，还会把当前仓库的 `skills/` 注册到 OpenClaw 配置 `skills.load.extraDirs`，让 OpenClaw 能直接发现它
 
 ## 3. 卸载 Claude 相关资产
 
@@ -121,6 +131,12 @@ rm -rf plugins/codex-harness-loop
 rm -f .harness/bin/harnessctl
 ```
 
+如果你还装过 OpenClaw repo-local skill，可以再额外删除：
+
+```bash
+rm -rf skills/harness-run
+```
+
 ## 5. 重装步骤
 
 重装不要直接“再跑一遍安装”了事，先清理，再安装，最后核对文件。
@@ -142,6 +158,7 @@ rm -f .codex/config.toml
 rm -f .codex/hooks.json
 rm -rf .codex/agents
 rm -rf .agents/skills/harness-run
+rm -rf skills/harness-run
 rm -rf plugins/claude-harness-loop
 rm -rf plugins/codex-harness-loop
 npm run install
@@ -168,6 +185,19 @@ rm -rf plugins/codex-harness-loop
 node packages/harnessctl/src/index.mjs install --host codex --mode portable
 ```
 
+如果你要重装 OpenClaw：
+
+```bash
+rm -rf skills/harness-run
+node packages/harnessctl/src/index.mjs install --host openclaw --mode portable
+```
+
+如果你要把当前仓库重新注册到 OpenClaw：
+
+```bash
+node packages/harnessctl/src/index.mjs install --host openclaw --mode workspace
+```
+
 ## 6. 安装后怎么验证 hooks / agents / skills 已落位
 
 这里验证的是**文件是否真的写到了应该写的位置**，不是“宿主里已经完成 smoke test”。
@@ -187,6 +217,8 @@ node packages/harnessctl/src/index.mjs install --host auto --mode portable
 ```
 
 输出里应当能看到 `.claude/`、`.codex/`、`.agents/`、`plugins/` 相关路径。
+
+如果你跑的是 `--host openclaw --mode workspace`，输出里还应当出现一条 `openclaw.json#skills.load.extraDirs`。
 
 ### 6.2 验证 Claude 侧
 
@@ -244,11 +276,30 @@ skill 是否写到位，最直接的办法是看文件是否存在、内容是�
 ```bash
 sed -n '1,220p' .claude/skills/harness-run/SKILL.md
 sed -n '1,220p' .agents/skills/harness-run/SKILL.md
+sed -n '1,220p' skills/harness-run/SKILL.md
+sed -n '1,220p' skills/harness-run/skill.json
 sed -n '1,220p' plugins/codex-harness-loop/skills/harness-run/SKILL.md
 ```
 
 如果你要确认的是“宿主发现能力”，那是下一层验证，应该去看 [剩余待办](remaining-tasks.md) 里列出的宿主 smoke test 任务。  
 这份文档这里只负责告诉你文件有没有正确落位。
+
+### 6.5 验证 OpenClaw 已经能发现这个 skill
+
+如果你走的是 `workspace` 模式，再做这两步：
+
+```bash
+python3 - <<'PY'
+import json, pathlib
+cfg = json.loads((pathlib.Path.home()/'.openclaw'/'openclaw.json').read_text())
+print(cfg.get('skills', {}).get('load', {}).get('extraDirs', []))
+PY
+
+openclaw skills list | grep -i harness || true
+```
+
+第一步应该能看到当前仓库的 `skills/` 路径。  
+第二步如果已经命中缓存刷新，就应该能看到 `harness-run`。
 
 ## 7. 常见错误与排查
 
@@ -290,6 +341,7 @@ node -v
 
 - 安装时显式传了 `--host claude`
 - 安装时显式传了 `--host codex`
+- 安装时显式传了 `--host openclaw`
 
 排查方式：
 
@@ -298,6 +350,12 @@ node packages/harnessctl/src/index.mjs install --host auto --mode portable
 ```
 
 如果你想要两边都落位，`--host auto` 才是最稳的方式。
+
+如果你想让 OpenClaw 也发现当前仓库 skill，记得再补一次：
+
+```bash
+node packages/harnessctl/src/index.mjs install --host openclaw --mode workspace
+```
 
 ### 7.4 hook 文件有语法问题
 

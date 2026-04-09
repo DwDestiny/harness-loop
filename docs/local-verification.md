@@ -2,10 +2,11 @@
 
 ## 验证范围
 
-这份记录现在覆盖两层：
+这份记录现在覆盖三层：
 
 - 本地仓库门禁
 - `2026-04-09` 在真实 `Claude Code CLI` 和 `Codex CLI` 中，对主仓库做的正向 smoke test
+- `2026-04-09` 在真实 `OpenClaw` 中，对 `harness-run` skill 的发现链路与最小 agent turn 做的 smoke test
 
 它还**不**覆盖下面两类结论：
 
@@ -25,6 +26,11 @@ codex --version
 codex login status
 codex exec --json ... "..."
 codex exec --json ... "请使用 harness-run skill ..."
+node packages/harnessctl/src/index.mjs install --host openclaw --mode workspace
+openclaw skills list
+openclaw status
+openclaw gateway status
+openclaw agent --agent main --message "请用 harness 架构循环工作..." --json
 npm test
 npm run review
 npm run doctor
@@ -73,14 +79,28 @@ npm run score
 - Codex CLI 全程伴随全局环境噪音，包括 `state_5.sqlite` migration warning、plugin manifest warning、analytics `403`
 - 这些告警没有阻断主仓库正向链路，但会明显污染日志，不适合直接把原始终端输出当对外演示材料
 
-### 4. 本地门禁
+### 4. OpenClaw
+
+OpenClaw 基础接入通过。
+
+- `node packages/harnessctl/src/index.mjs install --host openclaw --mode workspace` 成功把当前仓库 `skills/` 注册进 `~/.openclaw/openclaw.json -> skills.load.extraDirs`
+- `openclaw skills list` 已能看到 `harness-run`，来源显示为 `openclaw-extra`
+- `openclaw status` 和 `openclaw gateway status` 都确认网关可达、Gateway service 正在运行
+- `openclaw agent --agent main --message "请用 harness 架构循环工作..." --json` 返回了三团队循环结构化回答，说明 OpenClaw 侧已经能接住 harness 意图并围绕三团队框架作答
+
+需要保留的事实：
+
+- 这一步确认了 skill 被发现、配置已注册、真实 agent turn 已能回出三团队框架
+- 但还没有补完“一次真实任务中，`sessions_spawn` 真的把 `standards_team / execution_team / evaluation_team` 跑起来”的强证据
+
+### 5. 本地门禁
 
 通过。
 
-- `npm test`：13 个测试全部通过
+- `npm test`：20 个测试全部通过
 - `npm run review`：`critical = 0`、`high = 0`、`medium = 0`
-- `npm run doctor`：`ok = true`、`checked = 18`
-- `npm run bundle`：`dist/claude-harness-loop/` 与 `dist/codex-harness-loop/` 已产出
+- `npm run doctor`：`ok = true`、`checked = 20`
+- `npm run bundle`：`dist/claude-harness-loop/`、`dist/codex-harness-loop/`、`dist/openclaw-harness-loop/` 已产出
 - `npm run score`：`passed = true`、`score = 100`、`threshold = 90`
 
 ## 当前判断
@@ -89,9 +109,12 @@ npm run score
 
 - 主仓库的安装流程已经实测通过
 - 主仓库在 `Claude Code CLI` 和 `Codex CLI` 里的正向 smoke test 已经通过
+- OpenClaw 已经能发现并加载 `harness-run`
+- OpenClaw 真实 agent turn 已经能按三团队框架回应 harness 意图
 - `harness-run` 在 Codex CLI 侧有直接证据，Claude CLI 侧有“已加载但遵循度不完全稳定”的证据
 
 当前还不能下的结论是：
 
 - 复制到新路径后的副本一定会自动继承相同的 hook 行为
 - 故意失败场景下的宿主 stop gate 已经在真实宿主里完整验收
+- OpenClaw 已经留下了 `sessions_spawn` 三团队完整实跑证据

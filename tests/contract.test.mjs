@@ -8,3 +8,13 @@ test('draftContract produces required acceptance and verification', () => {
   assert.equal(contract.acceptance.length >= 3, true);
   assert.deepEqual(contract.verification.map((item) => item.cmd), ['npm test', 'npm run review', 'npm run doctor']);
 });
+
+test('draftContract carries harness team loop metadata', () => {
+  const contract = draftContract({ task: 'Ship a governed workflow' });
+  assert.equal(contract.metadata.workflow_mode, 'team_loop');
+  assert.equal(Array.isArray(contract.metadata.teams), true);
+  assert.deepEqual(
+    contract.metadata.teams.map((item) => item.id),
+    ['standards_team', 'execution_team', 'evaluation_team'],
+  );
+});

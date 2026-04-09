@@ -82,6 +82,32 @@ function loadAttempts(attemptsPath) {
     .map((line) => JSON.parse(line));
 }
 
+function loadHandoffs(handoffsPath) {
+  if (!fileExists(handoffsPath)) return [];
+  return readText(handoffsPath)
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+}
+
+function evaluationGate(contract, active, handoffs) {
+  if (contract?.metadata?.workflow_mode !== 'team_loop') {
+    return { ok: true, evidence: 'workflow_mode is not team_loop' };
+  }
+  const currentAttempt = active.attempt || 1;
+  const latestEvaluation = [...handoffs]
+    .reverse()
+    .find((item) => item.attempt === currentAttempt && item.team_id === 'evaluation_team');
+  if (!latestEvaluation) {
+    return { ok: false, evidence: 'evaluation team has not approved the current loop' };
+  }
+  if (latestEvaluation.decision !== 'pass') {
+    return { ok: false, evidence: `evaluation team decision is ${latestEvaluation.decision}` };
+  }
+  return { ok: true, evidence: latestEvaluation.summary || 'evaluation team approved the current loop' };
+}
+
 function computeFingerprint(active, hardFailures, acceptance, verification, review) {
   if (active?.strategy_fingerprint) return active.strategy_fingerprint;
   return sha1(JSON.stringify({
@@ -147,6 +173,8 @@ export function scoreRepo(repoRoot, options = {}) {
 
   const acceptance = acceptanceStatuses(repoRoot, contract, verification);
   const governance = governanceChecks(repoRoot);
+  const handoffs = loadHandoffs(paths.handoffs);
+  const evaluation = evaluationGate(contract, active, handoffs);
 
   const hardFailures = [];
   if (!fileExists(paths.contract)) hardFailures.push('contract.json is missing');
@@ -162,6 +190,7 @@ export function scoreRepo(repoRoot, options = {}) {
   for (const item of acceptance) {
     if (item.required && item.ok !== true) hardFailures.push(`acceptance ${item.id} not satisfied`);
   }
+  if (!evaluation.ok) hardFailures.push('evaluation team has not approved the current loop');
   if ((active.attempt || 1) > (contract.max_attempts || active.max_attempts || 1)) {
     hardFailures.push('attempt budget exhausted');
   }
@@ -209,6 +238,7 @@ export function scoreRepo(repoRoot, options = {}) {
     next_move: nextMove,
     fingerprint,
     attempt: active.attempt || 1,
+    evaluation,
   };
 
   writeJson(paths.score, result);

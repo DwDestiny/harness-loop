@@ -20,13 +20,38 @@ function mkRepo() {
     max_attempts: 4,
     acceptance: [{ id: 'A1', text: 'README exists', required: true, check: { type: 'file_exists', path: 'README.md' } }],
     verification: [{ id: 'T1', cmd: 'node -e "process.exit(0)"', required: true }],
+    metadata: {
+      workflow_mode: 'team_loop',
+      teams: [
+        { id: 'standards_team' },
+        { id: 'execution_team' },
+        { id: 'evaluation_team' },
+      ],
+    },
   });
-  writeJson(paths.active, { active: true, attempt: 1, max_attempts: 4 });
+  writeJson(paths.active, {
+    active: true,
+    attempt: 1,
+    max_attempts: 4,
+    current_team: 'standards_team',
+    team_round: 1,
+    next_team: 'standards_team',
+  });
   return { dir, paths };
 }
 
 test('scoreRepo passes when acceptance and verification pass', () => {
-  const { dir } = mkRepo();
+  const { dir, paths } = mkRepo();
+  fs.writeFileSync(
+    paths.handoffs,
+    JSON.stringify({
+      attempt: 1,
+      team_id: 'evaluation_team',
+      decision: 'pass',
+      next_team: null,
+      summary: 'gate passed',
+    }) + '\n',
+  );
   const result = scoreRepo(dir, { generateReview: true });
   assert.equal(result.passed, true);
   assert.equal(result.score >= 90, true);
@@ -39,4 +64,28 @@ test('scoreRepo blocks repeated strategy fingerprint', () => {
   const result = scoreRepo(dir, { generateReview: true });
   assert.equal(result.passed, false);
   assert.equal(result.hard_failures.includes('repeated failure strategy fingerprint'), true);
+});
+
+test('scoreRepo blocks team loop when evaluation handoff is missing', () => {
+  const { dir } = mkRepo();
+  const result = scoreRepo(dir, { generateReview: true });
+  assert.equal(result.passed, false);
+  assert.equal(result.hard_failures.includes('evaluation team has not approved the current loop'), true);
+});
+
+test('scoreRepo passes team loop after evaluation handoff approves the attempt', () => {
+  const { dir, paths } = mkRepo();
+  fs.writeFileSync(
+    paths.handoffs,
+    JSON.stringify({
+      attempt: 1,
+      team_id: 'evaluation_team',
+      decision: 'pass',
+      next_team: null,
+      summary: 'gate passed',
+    }) + '\n',
+  );
+
+  const result = scoreRepo(dir, { generateReview: true });
+  assert.equal(result.passed, true);
 });

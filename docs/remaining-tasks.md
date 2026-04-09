@@ -12,6 +12,8 @@
 - release 流程与 Claude 分发策略
 - 关键坏路径自动化测试
 - 主仓库 `Claude Code CLI` / `Codex CLI` 正向 smoke test 证据
+- OpenClaw 原生 skill 接入
+- `team_loop + handoff + evaluation gate` 最小运行时骨架
 
 总控真相源见：
 
@@ -46,6 +48,28 @@
 - 安装、卸载、重装流程已实测
 - 结果已回写到 `docs/local-verification.md`
 
+### PKG-08：skill 触发语义收口
+
+状态：已完成
+
+已确认：
+
+- `harness-run` 已明确写清楚何时触发
+- Claude / Codex skill 都补上了 team loop 语义
+
+### PKG-09：OpenClaw 接入与三团队运行时骨架
+
+状态：已完成基础版
+
+已确认：
+
+- 仓库已生成 `skills/harness-run/`
+- `install --host openclaw --mode workspace` 会注册 `skills.load.extraDirs`
+- `openclaw skills list` 已能看到 `harness-run`
+- `contract.metadata.workflow_mode = team_loop`
+- `harnessctl handoff` 已可写入团队交接状态
+- `score` 已要求 `evaluation_team` 对当前轮次放行
+
 ## 当前剩余阻塞项
 
 ### PKG-06-EXT：失败态 stop gate 与路径信任差异补测
@@ -60,6 +84,19 @@
 
 - 复制到新路径的副本没有自动刷新 `.harness/state/current/*`
 - 这说明 copied path 的宿主行为和主仓库路径并不等价，不能拿副本结果冒充主结论
+
+### PKG-09-EXT：OpenClaw 三团队真实任务 smoke test
+
+目标：
+
+- 在真实 OpenClaw agent turn 中触发 `harness-run`
+- 看到三团队职责被正确解释或通过 `sessions_spawn` 派发
+- 留下至少一条可复现的真实任务证据，而不是只验证 skill 被发现
+
+当前阻塞：
+
+- 当前只确认了 skill 发现和加载，没有收口到“一次真实任务 turn 的完整证据”
+- OpenClaw 现有 workspace 里有若干历史 skill 路径告警，需要和新接入区分开
 
 ### PKG-07：基于真实宿主结果补最终发布说明
 
@@ -100,4 +137,4 @@
 
 ## 当前执行策略
 
-先补 **PKG-06-EXT**，把失败态门禁和路径信任差异收口，再决定是否进入 PKG-07 与 P1 / P2。
+先补 **PKG-09-EXT** 和 **PKG-06-EXT**，把 OpenClaw 真实三团队实跑与失败态门禁收口，再决定是否进入 PKG-07 与 P1 / P2。

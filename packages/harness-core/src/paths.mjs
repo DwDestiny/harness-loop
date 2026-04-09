@@ -5,6 +5,7 @@ export function statePaths(repoRoot) {
   return {
     base,
     active: path.join(base, 'active.json'),
+    handoffs: path.join(base, 'handoffs.jsonl'),
     contract: path.join(base, 'contract.json'),
     verification: path.join(base, 'verification.json'),
     review: path.join(base, 'review.json'),

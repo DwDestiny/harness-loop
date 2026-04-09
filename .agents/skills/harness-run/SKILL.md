@@ -13,7 +13,11 @@ Do not use this skill for:
 
 Workflow:
 1. If no active contract exists, initialize one for the current task before implementation starts.
-2. Use the harness contract as the source of truth.
-3. Refresh review and score after each meaningful implementation pass.
-4. If score fails and attempt budget remains, advance with a new strategy and continue.
-5. Declare completion only after score passes, or when the attempt budget is exhausted with a clear blocker report.
+2. Standards team responsibility: use the contract as the source of truth and tighten acceptance plus verification first.
+3. After standards work is done, record a handoff to execution_team.
+4. Execution team responsibility: implement the smallest reversible diff that can satisfy the contract.
+5. After execution work is done, record a handoff to evaluation_team.
+6. Evaluation team responsibility: refresh review and score after each meaningful implementation pass, and block completion on failures.
+7. If evaluation passes, record a pass handoff for evaluation_team.
+8. If score fails and attempt budget remains, record a retry handoff to standards_team, advance with a new strategy, and continue.
+9. Declare completion only after score passes, or when the attempt budget is exhausted with a clear blocker report.

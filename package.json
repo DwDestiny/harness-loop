@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Portable harness runtime with deterministic score gates for Claude Code and Codex.",
+  "description": "Portable harness runtime with deterministic score gates for Claude Code, Codex, and OpenClaw.",
   "license": "MIT",
   "author": "DwDestiny",
   "repository": {
@@ -19,6 +19,7 @@
     "agent",
     "codex",
     "claude",
+    "openclaw",
     "verification",
     "workflow"
   ],

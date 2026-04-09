@@ -1,14 +1,49 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import { ensureDir, writeJson, writeText } from './io.mjs';
-import { claudeAgents, claudeSettings, claudeSkill, codexAgents, codexHooks, codexPluginManifest, codexSkill } from './templates.mjs';
+import { ensureDir, readJson, writeJson, writeText } from './io.mjs';
+import {
+  claudeAgents,
+  claudeSettings,
+  claudeSkill,
+  codexAgents,
+  codexHooks,
+  codexPluginManifest,
+  codexSkill,
+  openclawSkill,
+  openclawSkillManifest,
+} from './templates.mjs';
 
 function chmodIfExists(targetPath) {
   try { fs.chmodSync(targetPath, 0o755); } catch {}
 }
 
+function openclawConfigPath(options = {}) {
+  return options.openclaw_config_path
+    || process.env.OPENCLAW_CONFIG_PATH
+    || path.join(os.homedir(), '.openclaw', 'openclaw.json');
+}
+
+function registerOpenclawExtraDir(repoRoot, options = {}) {
+  const configPath = openclawConfigPath(options);
+  const config = readJson(configPath, {});
+  const next = { ...config };
+  next.skills = next.skills || {};
+  next.skills.load = next.skills.load || {};
+  next.skills.load.extraDirs = Array.isArray(next.skills.load.extraDirs) ? next.skills.load.extraDirs : [];
+
+  const skillsDir = path.join(repoRoot, 'skills');
+  if (!next.skills.load.extraDirs.includes(skillsDir)) {
+    next.skills.load.extraDirs.push(skillsDir);
+  }
+
+  writeJson(configPath, next);
+  return { configPath, skillsDir };
+}
+
 export function installPortable(repoRoot, options = {}) {
   const host = options.host || 'auto';
+  const mode = options.mode || 'portable';
   const created = [];
 
   ensureDir(path.join(repoRoot, '.harness', 'bin'));
@@ -53,6 +88,18 @@ export function installPortable(repoRoot, options = {}) {
     writeText(path.join(repoRoot, 'plugins', 'codex-harness-loop', 'skills', 'harness-run', 'SKILL.md'), `${codexSkill()}\n`);
     created.push('plugins/codex-harness-loop/.codex-plugin/plugin.json');
     created.push('plugins/codex-harness-loop/skills/harness-run/SKILL.md');
+  }
+
+  if (host === 'auto' || host === 'openclaw') {
+    writeText(path.join(repoRoot, 'skills', 'harness-run', 'SKILL.md'), `${openclawSkill()}\n`);
+    writeJson(path.join(repoRoot, 'skills', 'harness-run', 'skill.json'), openclawSkillManifest());
+    created.push('skills/harness-run/SKILL.md');
+    created.push('skills/harness-run/skill.json');
+
+    if (mode === 'workspace') {
+      const registration = registerOpenclawExtraDir(repoRoot, options);
+      created.push(`${registration.configPath}#skills.load.extraDirs`);
+    }
   }
 
   return { ok: true, created };

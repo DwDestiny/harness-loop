@@ -44,6 +44,22 @@ export function draftContract({ task, type = 'feature', threshold = 90, maxAttem
     metadata: {
       drafted_by: 'harnessctl',
       deterministic_gate: true,
+      workflow_mode: 'team_loop',
+      team_sequence: ['standards_team', 'execution_team', 'evaluation_team'],
+      teams: [
+        {
+          id: 'standards_team',
+          purpose: 'Define and tighten the contract, acceptance, and verification gates.',
+        },
+        {
+          id: 'execution_team',
+          purpose: 'Implement the smallest reversible diff that satisfies the contract.',
+        },
+        {
+          id: 'evaluation_team',
+          purpose: 'Run review and score, then decide whether the loop may stop.',
+        },
+      ],
     },
   };
 }

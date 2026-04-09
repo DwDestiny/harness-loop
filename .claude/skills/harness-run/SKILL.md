@@ -14,8 +14,11 @@ Do not use this skill for:
 
 Workflow:
 1. Run ./.harness/bin/harnessctl init --host claude --task "$ARGUMENTS" if no active contract exists.
-2. Ensure the contract is measurable before code changes.
-3. Use planner, researcher, builder, reviewer around the contract.
-4. Refresh review and score after each meaningful implementation pass.
-5. If score fails and attempt budget remains, advance with a new strategy and continue the loop.
-6. End only when score passes or attempt budget is exhausted.
+2. Standards team responsibility: tighten the contract, acceptance, and verification before code changes. Use planner for this.
+3. After standards work is done, record the handoff with ./.harness/bin/harnessctl handoff --team standards_team --decision continue --next-team execution_team --summary "contract ready".
+4. Execution team responsibility: implement the smallest reversible diff. Use builder for this.
+5. After execution work is done, record the handoff with ./.harness/bin/harnessctl handoff --team execution_team --decision continue --next-team evaluation_team --summary "diff ready".
+6. Evaluation team responsibility: use researcher plus reviewer to find blockers, then refresh review and score after each meaningful implementation pass.
+7. If evaluation passes, record ./.harness/bin/harnessctl handoff --team evaluation_team --decision pass --summary "score passed".
+8. If evaluation fails and attempt budget remains, record ./.harness/bin/harnessctl handoff --team evaluation_team --decision retry --next-team standards_team --summary "next loop", then advance with a new strategy and continue.
+9. End only when evaluation says the gate passed, or when the attempt budget is exhausted.

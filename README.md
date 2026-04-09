@@ -1,6 +1,6 @@
 # Harness Loop
 
-一个给 Claude Code 和 Codex 使用的可移植 harness 运行时，用来把“我觉得做完了”变成“已经通过可验证的完成门禁”。
+一个给 Claude Code、Codex、OpenClaw 使用的可移植 harness 运行时，用来把“我觉得做完了”变成“已经通过可验证的完成门禁”。
 
 ## 它解决什么问题
 
@@ -20,7 +20,7 @@ Harness Loop 用一条很克制的确定性链路把这件事卡住：
 
 1. `packages/harness-core`：共享内核，负责 contract / review / verification / score / installer
 2. `packages/harnessctl`：CLI 入口，负责 `init / review / score / doctor / install` 等命令
-3. Claude Code / Codex 宿主适配资产，以及可分发 bundle
+3. Claude Code / Codex / OpenClaw 宿主适配资产，以及可分发 bundle
 
 ## Current status
 
@@ -45,6 +45,11 @@ node packages/harnessctl/src/index.mjs review
 node packages/harnessctl/src/index.mjs score
 ```
 
+如果你要把它接进 OpenClaw，有两种路：
+
+- 仓库内生成 skill 资产：`node packages/harnessctl/src/index.mjs install --host openclaw --mode portable`
+- 直接注册到当前 OpenClaw 配置：`node packages/harnessctl/src/index.mjs install --host openclaw --mode workspace`
+
 ## 什么时候会触发 harness-run
 
 当用户的任务明显带着下面这类意图时，宿主就应该更容易自动命中 `harness-run`：
@@ -55,11 +60,18 @@ node packages/harnessctl/src/index.mjs score
 
 反过来，如果只是简单问答、翻译、解释，或者一次性很小的修改，而且用户明确不要 harness，就不该硬套这条流程。
 
+在 OpenClaw 里，命中 `harness-run` 后的目标不是单线程完成任务，而是自动进入三团队循环：
+
+- `standards_team`：先定 contract、验收标准、验证命令
+- `execution_team`：只按 contract 做最小可逆改动
+- `evaluation_team`：负责 `review + score`，不通过就继续下一轮
+
 ## 常用命令
 
 ```bash
 harnessctl init --task "..." --host auto --type feature
 harnessctl draft-contract --task "..."
+harnessctl handoff --team standards_team --decision continue --next-team execution_team --summary "contract ready"
 harnessctl review
 harnessctl score
 harnessctl doctor
@@ -76,6 +88,7 @@ packages/    核心运行时代码
 .codex/      Codex repo-local 配置
 .agents/     Codex skills
 plugins/     对外分发插件资产
+skills/      OpenClaw 可加载的本地 skill
 .harness/    harness 运行时状态与 shim
 tests/       测试代码
 fixtures/    回归样例仓库

@@ -1,0 +1,18 @@
+{
+  "name": "harness-run",
+  "version": "0.3.0",
+  "description": "OpenClaw harness team loop: trigger a standards team, execution team, and evaluation team that keep iterating until score passes.",
+  "author": "DwDestiny",
+  "homepage": "https://github.com/DwDestiny/harness-loop",
+  "keywords": [
+    "harness",
+    "openclaw",
+    "sessions_spawn",
+    "team_loop",
+    "contract",
+    "review",
+    "score",
+    "多智能体",
+    "评估团队"
+  ]
+}

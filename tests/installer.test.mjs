@@ -51,3 +51,39 @@ test('installPortable writes skills with explicit harness trigger guidance', () 
 
   assert.equal(plugin_skill, codex_skill);
 });
+
+test('installPortable writes openclaw skill with team loop guidance', () => {
+  const dir = tmpRepo();
+  const result = installPortable(dir, { host: 'openclaw' });
+
+  assert.equal(result.ok, true);
+
+  const openclaw_skill = fs.readFileSync(path.join(dir, 'skills', 'harness-run', 'SKILL.md'), 'utf8');
+  const openclaw_manifest = JSON.parse(fs.readFileSync(path.join(dir, 'skills', 'harness-run', 'skill.json'), 'utf8'));
+
+  assert.match(openclaw_skill, /openclaw/i);
+  assert.match(openclaw_skill, /sessions_spawn/i);
+  assert.match(openclaw_skill, /standards_team/i);
+  assert.match(openclaw_skill, /execution_team/i);
+  assert.match(openclaw_skill, /evaluation_team/i);
+  assert.match(openclaw_skill, /按 harness 架构循环工作/);
+
+  assert.equal(openclaw_manifest.name, 'harness-run');
+  assert.match(openclaw_manifest.description, /OpenClaw/i);
+});
+
+test('installPortable workspace mode registers repo skills in openclaw config', () => {
+  const dir = tmpRepo();
+  const config_dir = fs.mkdtempSync(path.join(os.tmpdir(), 'openclaw-config-'));
+  const config_path = path.join(config_dir, 'openclaw.json');
+  fs.writeFileSync(config_path, JSON.stringify({ skills: { load: { extraDirs: [] } } }, null, 2));
+
+  installPortable(dir, {
+    host: 'openclaw',
+    mode: 'workspace',
+    openclaw_config_path: config_path,
+  });
+
+  const config = JSON.parse(fs.readFileSync(config_path, 'utf8'));
+  assert.equal(config.skills.load.extraDirs.includes(path.join(dir, 'skills')), true);
+});

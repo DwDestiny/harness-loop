@@ -10,6 +10,10 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 
 只有这条链路跑通，任务才算完成。
 
+在最新目标下，这条链路已经不是“一个代理自己走完”，而是要能被宿主解释成一个三团队循环：
+
+`standards_team -> execution_team -> evaluation_team -> (pass or retry)`
+
 ## 总体分层
 
 仓库分成 5 层：
@@ -24,7 +28,8 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 - 执行或读取 verification
 - 生成 review 结果
 - 计算 score 与 hard failure
-- 生成 Claude / Codex 安装模板
+- 生成 Claude / Codex / OpenClaw 安装模板
+- 记录团队交接证据并把它纳入 score 门禁
 
 这是整个项目的真相层，也是唯一应该承载评分口径的地方。
 
@@ -34,7 +39,7 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 
 职责：
 
-- 对外暴露 `init / advance / draft-contract / review / score / doctor / install / clean`
+- 对外暴露 `init / advance / handoff / draft-contract / review / score / doctor / install / clean`
 - 把仓库操作收束成可执行命令
 - 给 hook、脚本、使用者提供统一入口
 
@@ -47,6 +52,7 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 - `.claude/`
 - `.codex/`
 - `.agents/`
+- `skills/`
 - `plugins/`
 
 职责：
@@ -54,6 +60,7 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 - 把同一套 harness 规则映射到不同宿主
 - 提供 repo-local 运行资产
 - 提供可分发插件资产
+- 提供 OpenClaw 可直接发现的 workspace skill
 
 这里不应该另起一套业务逻辑，只负责“接线”和“映射”。
 
@@ -70,6 +77,7 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 
 - `active.json`
 - `contract.json`
+- `handoffs.jsonl`
 - `verification.json`
 - `review.json`
 - `score.json`
@@ -117,6 +125,14 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 
 这个阶段不允许把“看起来差不多”当成完成，只能围绕 contract 落地。
 
+在 team loop 模式里，这一段会拆成三支团队：
+
+- `standards_team`：先收紧 contract、acceptance、verification
+- `execution_team`：只做最小可逆改动
+- `evaluation_team`：负责最终说“过”还是“不过”
+
+每次团队切换都要写入 `handoffs.jsonl`，不能只靠口头描述。
+
 ### 3. review 阶段
 
 入口命令：
@@ -145,10 +161,12 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 
 入口命令：
 
+- `harnessctl handoff`
 - `harnessctl advance`
 
 作用：
 
+- 记录团队交接、决策、下一棒是谁
 - 增加 attempt
 - 允许记录新的 strategy fingerprint
 
@@ -185,6 +203,21 @@ Harness Loop 要解决的不是“模型会不会写代码”，而是“模型�
 - 会话启动或恢复时先同步状态
 - 会话结束前由 score 做最终门禁
 
+### OpenClaw
+
+OpenClaw 不走 repo-local hook，而是走 workspace skill：
+
+- `skills/harness-run/SKILL.md`
+- `skills/harness-run/skill.json`
+
+它的目标不是替代 `harnessctl`，而是让宿主一旦识别到 harness 意图，就自动进入三团队循环，并通过 `sessions_spawn` 拉起：
+
+- `standards_team`
+- `execution_team`
+- `evaluation_team`
+
+最终门禁仍然由 `.harness/bin/harnessctl score` 决定。
+
 ## 安装与产物流向
 
 ### 源头
@@ -208,6 +241,7 @@ npm run install
 - `.claude/`
 - `.codex/`
 - `.agents/`
+- `skills/`
 - `plugins/` 中必要插件资产
 
 ### bundle 产物
@@ -222,6 +256,7 @@ npm run bundle
 
 - `dist/claude-harness-loop/`
 - `dist/codex-harness-loop/`
+- `dist/openclaw-harness-loop/`
 
 `dist/` 是构建结果，不是长期手改的真相源。
 

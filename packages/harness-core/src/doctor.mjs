@@ -19,6 +19,8 @@ export function doctor(repoRoot) {
     '.codex/hooks.json',
     '.codex/agents/harness_planner.toml',
     '.agents/skills/harness-run/SKILL.md',
+    'skills/harness-run/SKILL.md',
+    'skills/harness-run/skill.json',
     'plugins/codex-harness-loop/.codex-plugin/plugin.json',
   ];
 
