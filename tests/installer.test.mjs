@@ -26,6 +26,10 @@ test('installPortable writes Claude and Codex assets', () => {
   assert.equal(result.ok, true);
   assert.equal(fs.existsSync(path.join(dir, '.claude', 'settings.json')), true);
   assert.equal(fs.existsSync(path.join(dir, '.codex', 'hooks.json')), true);
+  const claude_md = fs.readFileSync(path.join(dir, 'CLAUDE.md'), 'utf8');
+  assert.match(claude_md, /harness-run/);
+  assert.match(claude_md, /standards_team/);
+  assert.match(claude_md, /Never route a failed evaluation directly back to execution_team/i);
   const report = doctor(dir);
   assert.equal(report.ok, true);
 });
@@ -38,15 +42,18 @@ test('installPortable writes skills with explicit harness trigger guidance', () 
   const codex_skill = fs.readFileSync(path.join(dir, '.agents', 'skills', 'harness-run', 'SKILL.md'), 'utf8');
   const plugin_skill = fs.readFileSync(path.join(dir, 'plugins', 'codex-harness-loop', 'skills', 'harness-run', 'SKILL.md'), 'utf8');
 
+  assert.match(claude_skill, /^name: harness-run$/m);
   assert.match(claude_skill, /按 harness 架构循环工作/);
   assert.match(claude_skill, /contract/i);
   assert.match(claude_skill, /review/i);
   assert.match(claude_skill, /score/i);
+  assert.match(claude_skill, /Never route a failed evaluation directly back to execution_team/i);
   assert.match(claude_skill, /Do not use this skill|不要在简单问答/);
 
   assert.match(codex_skill, /按 harness 架构循环工作/);
   assert.match(codex_skill, /review/i);
   assert.match(codex_skill, /score/i);
+  assert.match(codex_skill, /Never route a failed evaluation directly back to execution_team/i);
   assert.match(codex_skill, /advance/i);
 
   assert.equal(plugin_skill, codex_skill);

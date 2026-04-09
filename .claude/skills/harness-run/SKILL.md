@@ -1,4 +1,5 @@
 ---
+name: harness-run
 description: Use this when the user explicitly asks for harness, harness loop, 按 harness 架构循环工作, or wants contract/review/verification/score gated delivery.
 allowed-tools: Read, Grep, Glob, LS, Bash, Write, Edit, MultiEdit, Task
 disable-model-invocation: true
@@ -11,6 +12,10 @@ Use this skill when:
 Do not use this skill for:
 - 简单问答、解释、翻译、闲聊
 - 一次性很小的改动，而且用户明确不要 harness 流程
+
+Hard rules:
+- Always use the exact team ids standards_team, execution_team, evaluation_team when explaining or running the loop.
+- Never route a failed evaluation directly back to execution_team. Failed evaluations must return to standards_team first so the contract and strategy can be tightened before the next execution pass.
 
 Workflow:
 1. Run ./.harness/bin/harnessctl init --host claude --task "$ARGUMENTS" if no active contract exists.

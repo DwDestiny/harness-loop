@@ -14,8 +14,37 @@ import {
   openclawSkillManifest,
 } from './templates.mjs';
 
+const claude_harness_block_start = '<!-- harness-loop:start -->';
+const claude_harness_block_end = '<!-- harness-loop:end -->';
+
 function chmodIfExists(targetPath) {
   try { fs.chmodSync(targetPath, 0o755); } catch {}
+}
+
+function claudeHarnessProjectBlock() {
+  return `${claude_harness_block_start}
+## Harness trigger routing
+
+When the user explicitly says harness, harness loop, 按 harness 架构循环工作, or 按 harness 流程做:
+1. Treat that as activation of the repo-local harness-run workflow, even if Skill auto-discovery is unavailable.
+2. Always use the exact team ids standards_team, execution_team, evaluation_team.
+3. Never route a failed evaluation directly back to execution_team. Failed evaluations must return to standards_team first so the contract and strategy can be tightened before the next execution pass.
+${claude_harness_block_end}
+`;
+}
+
+function mergeManagedBlock(currentText, blockText, startMarker, endMarker) {
+  const normalized = currentText.endsWith('\n') ? currentText : `${currentText}\n`;
+  const startIndex = normalized.indexOf(startMarker);
+  const endIndex = normalized.indexOf(endMarker);
+
+  if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+    const before = normalized.slice(0, startIndex).replace(/\s*$/, '');
+    const after = normalized.slice(endIndex + endMarker.length).replace(/^\s*/, '');
+    return `${before}\n\n${blockText.trimEnd()}\n${after ? `\n${after}` : ''}`;
+  }
+
+  return `${normalized.replace(/\s*$/, '')}\n\n${blockText.trimEnd()}\n`;
 }
 
 function openclawConfigPath(options = {}) {
@@ -66,6 +95,13 @@ export function installPortable(repoRoot, options = {}) {
     }
     writeText(path.join(repoRoot, '.claude', 'skills', 'harness-run', 'SKILL.md'), `${claudeSkill()}\n`);
     created.push('.claude/skills/harness-run/SKILL.md');
+    const claudeMdPath = path.join(repoRoot, 'CLAUDE.md');
+    const existingClaudeMd = fs.existsSync(claudeMdPath) ? fs.readFileSync(claudeMdPath, 'utf8') : '# CLAUDE.md\n';
+    writeText(
+      claudeMdPath,
+      mergeManagedBlock(existingClaudeMd, claudeHarnessProjectBlock(), claude_harness_block_start, claude_harness_block_end),
+    );
+    created.push('CLAUDE.md');
     writeText(
       path.join(repoRoot, 'plugins', 'claude-harness-loop', 'README.md'),
       '# Claude portable bundle\n\nThis bundle mirrors the repo-local .claude assets for distribution.\n',

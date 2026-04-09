@@ -11,6 +11,10 @@ Do not use this skill for:
 - 简单问答、解释、翻译、闲聊
 - 一次性小修改，而且用户明确不需要 harness
 
+Hard rules:
+- Always use the exact team ids standards_team, execution_team, evaluation_team when explaining or running the loop.
+- Never route a failed evaluation directly back to execution_team. Failed evaluations must return to standards_team first so the contract and strategy can be tightened before the next execution pass.
+
 Workflow:
 1. If no active contract exists, initialize one for the current task before implementation starts.
 2. Standards team responsibility: use the contract as the source of truth and tighten acceptance plus verification first.
